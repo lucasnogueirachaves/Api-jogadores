@@ -150,3 +150,22 @@ def remover_jogador(id):
     if not jogador_removido:
         return jsonify(Mensagem = "Jogador não encontrado"), 404
     
+# Remover jogador por nome
+@app.route("/jogador", methods=['DELETE'])
+def remover_jogador_nome():
+    nome = request.args.get("nome")
+    jogador_removido = False
+    
+    if not nome:
+        return jsonify(Mensagem = "Erro"), 400
+    
+    for jogador in jogadores:
+        if jogador["nome"] == nome:
+            jogador_removido = True
+            jogadores.remove(jogador)
+            return jsonify(Mensagem = "Jogador removido com sucesso"), 200
+        
+    if not jogador_removido:
+        return jsonify(Mensagem = "Jogador não encontrado"), 404          
+
+app.run()
