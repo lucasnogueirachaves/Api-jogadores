@@ -71,3 +71,21 @@ def get_jogador_nome():
         
     return jsonify(Mensagem = "Jogador não encontrado"), 404
 
+# Cadastro de jogador
+@app.route("/jogador", methods=['POST'])
+def cadastrar_jogador():
+    jogador = request.get_json()
+    
+    if not jogador:
+        return jsonify(Mensagem = "Erro"), 400
+    if "id" not in jogador:
+        return jsonify(Mensagem = "O campo 'id' é obrigatório"), 400
+    if "nome" not in jogador:
+        return jsonify(Mensagem = "O campo 'nome' é obrigatório"), 400
+    if "aposentado" not in jogador:
+        return jsonify(Mensagem = "O campo 'aposentado' é obrigatório"), 400
+    
+    jogadores.append(jogador)
+    
+    return jsonify(Mensagem = "Jogador adicionado", Jogador = jogador), 200
+
