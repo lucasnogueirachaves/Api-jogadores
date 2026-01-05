@@ -51,3 +51,12 @@ jogadores = [
 def get_jogadores():
     return jsonify(Jogadores = jogadores)
 
+# Busca jogador por id
+@app.route("/jogador/<int:id>", methods=['GET'])
+def get_jogador_id(id):
+    for jogador in jogadores:
+        if jogador["id"] == id:
+            return jsonify(Mensagem = "Jogador encontrado com sucesso", Jogador = jogador), 200
+        
+    return jsonify(Mensagem = "Jogador não encontrado"), 404
+
