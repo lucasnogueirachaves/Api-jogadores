@@ -89,3 +89,26 @@ def cadastrar_jogador():
     
     return jsonify(Mensagem = "Jogador adicionado", Jogador = jogador), 200
 
+# Atualizar jogador
+@app.route("/jogador/<int:id>", methods=['PATCH'])
+def atualizar_jogador(id):
+    dado = request.get_json()
+    
+    if not dado:
+        return jsonify(Mensagem = "Erro"), 400
+    
+    for jogador in jogadores:
+        if jogador["id"] == id:
+            if "nome" in dado:
+                jogador["nome"] = dado["nome"]
+            if "idade" in dado:
+                jogador["idade"] = dado["idade"]
+            if "valor" in dado:
+                jogador["valor"] = dado["valor"]
+            if "aposentado" in dado:
+                jogador["aposentado"] = dado["aposentado"]
+            if "time" in dado:
+                jogador["time"] = dado["time"]
+            return jsonify(Mensagem = "Jogador atualizado com sucesso", Jogador = jogador), 200
+    return jsonify(Mensagem = "Jogador não encontrado"), 404
+
