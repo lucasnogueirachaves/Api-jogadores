@@ -112,3 +112,27 @@ def atualizar_jogador(id):
             return jsonify(Mensagem = "Jogador atualizado com sucesso", Jogador = jogador), 200
     return jsonify(Mensagem = "Jogador não encontrado"), 404
 
+# Atualização completa
+@app.route("/jogador/<int:id>", methods=['PUT'])
+def atualizar(id):
+    dado = request.get_json()
+    if not dado:
+        return jsonify(Mensagem = "Erro"), 400
+    
+    campos_obrigatorios = ["nome", "valor", "idade", "aposentado", "time"]
+    
+    for campo in campos_obrigatorios:
+        if campo not in dado:
+            return jsonify(Mensagem = f"O campo {campo} é obrigatório"), 400
+        
+    for jogador in jogadores:
+        if jogador["id"] == id:
+            jogador["nome"] = dado["nome"]
+            jogador["idade"] = dado["idade"]
+            jogador["time"] = dado["time"]
+            jogador["valor"] = dado["valor"]
+            jogador["aposentado"] = dado["aposentado"]
+            return jsonify(Mensagem = "Jogador atualizado com sucesso", Jogador = jogador), 200
+        
+    return jsonify(Mensagem = "Jogador não encontrado"), 404
+
