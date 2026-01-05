@@ -136,3 +136,17 @@ def atualizar(id):
         
     return jsonify(Mensagem = "Jogador não encontrado"), 404
 
+# Remover jogador por id
+@app.route("/jogador/<int:id>", methods=['DELETE'])
+def remover_jogador(id):
+    jogador_removido = False
+    
+    for jogador in jogadores:
+        if jogador["id"] == id:
+            jogador_removido = True
+            jogadores.remove(jogador)
+            return jsonify(Mensagem = "Jogador removido com sucesso"), 200
+        
+    if not jogador_removido:
+        return jsonify(Mensagem = "Jogador não encontrado"), 404
+    
