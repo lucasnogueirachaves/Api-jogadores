@@ -4,6 +4,7 @@ from resource.jogador import jogador_blp
 from resource.time import time_blp
 
 app = Flask(__name__)
+app.json.sort_keys = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["API_TITLE"] = "Minha API"
 app.config["API_VERSION"] = "v1"
