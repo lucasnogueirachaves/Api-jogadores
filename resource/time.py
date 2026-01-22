@@ -68,3 +68,15 @@ class TimeId(MethodView):
         times.pop(time_id)
         
         return jsonify({"message": "Time removido com sucesso"}), 200
+    
+@time_blp.route("/time/<string:time_id>/valor")
+class TimeValor(MethodView):
+    
+    @time_blp.response(200, TimeSchema)
+    def get(self, time_id):
+        if time_id not in times:
+            abort(404, message="Time não encontrado")
+        valor = sum(jogador["valor"] for jogador in times[time_id]["jogadores"])
+        
+        return jsonify({"message" : f"O valor do elenco é {valor}"}), 200
+    

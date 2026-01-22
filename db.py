@@ -1,2 +1,3 @@
 jogadores = {}
 times = {}
+contratacoes = {}
