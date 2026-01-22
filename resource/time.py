@@ -80,3 +80,41 @@ class TimeValor(MethodView):
         
         return jsonify({"message" : f"O valor do elenco é {valor}"}), 200
     
+@time_blp.route("/time/ranking")
+class TimeRanking(MethodView):
+    
+    @time_blp.response(200)
+    def get(self):
+        ranking = []
+        
+        for time in times.values():
+            valor = sum(j["valor"] for j in time["jogadores"])
+            ranking.append({
+                "id": time["id"],
+                "nome": time["nome"],
+                "valor_elenco": valor
+            })
+            
+        ranking.sort(key=lambda t: t["valor_elenco"], reverse=True)
+        
+        return jsonify({"message": ranking}), 200
+    
+@time_blp.route("/time/<string:time_id>/jogadores")
+class TimeJogadores(MethodView):
+    
+    @time_blp.response(200)
+    def get(self, time_id):
+        if time_id not in times:
+            abort(404, message="Time não encontrado")
+            
+        jogadores = []
+        
+        for jogador in times[time_id]["jogadores"]:
+            jogadores.append({
+                "nome": jogador["nome"],
+                "valor": jogador["valor"]
+            })
+        
+        jogadores.sort(key=lambda t: t["valor"], reverse=True)
+        
+        return jsonify({"message": jogadores}), 200
